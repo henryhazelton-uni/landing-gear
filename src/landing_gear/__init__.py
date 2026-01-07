@@ -7,6 +7,7 @@ from landing_gear.functions.run_simulation import print_simulation_result
 from landing_gear.functions.simulation_logic import simulate_landing_gear_extension
 from landing_gear.configurations.example_configurations import config_a, config_b
 
+
 def main() -> None:
     """Entry point for the landing-gear command."""
     # Fix seed for reproducibility in teaching
