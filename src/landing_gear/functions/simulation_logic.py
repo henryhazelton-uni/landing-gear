@@ -59,17 +59,7 @@ def simulate_landing_gear_extension(
         -random_variation_ms, random_variation_ms
     )
     lock_delay = max(lock_delay, 0)
-    time_ms += lock_delay
-    current_state = GearState.DOWN_LOCKED
-    timeline.append(
-        (time_ms, f"Gear locked DOWN after additional {lock_delay} ms", current_state)
-    )
-
-    total_time_ms = time_ms
-
-    # Requirement check
-    meets_requirement = total_time_ms <= config.requirement_time_ms
-
+    
     # Gather all the time_ms appended things
     time_ms += pump_delay
     current_state = GearState.TRANSITIONING_DOWN
@@ -94,6 +84,23 @@ def simulate_landing_gear_extension(
             current_state,
         )
     )
+
+    time_ms += lock_delay
+    current_state = GearState.DOWN_LOCKED
+    timeline.append(
+        (time_ms, f"Gear locked DOWN after additional {lock_delay} ms", current_state)
+    )
+
+
+    total_delay_time_ms = pump_delay + extension_time + sensor_delay + lock_delay
+
+    total_time_ms = time_ms
+    
+    if total_delay_time_ms == total_time_ms:
+        print("times match")
+        
+    # Requirement check
+    meets_requirement = total_time_ms <= config.requirement_time_ms
 
     # Simple failure detection: if requirement not met, mark as failure state at requirement boundary
     failure_state_time = None
