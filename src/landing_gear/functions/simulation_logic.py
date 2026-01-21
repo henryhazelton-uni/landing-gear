@@ -3,9 +3,11 @@
 # -----------------------------
 
 import random
+import time
 from typing import List, Tuple, Dict, Any
 from landing_gear.configurations.configuration_parameters import GearConfiguration
 from landing_gear.configurations.gear_states import GearState
+from landing_gear.functions.progress_bar import progress_bar
 
 
 def simulate_landing_gear_extension(
@@ -94,11 +96,17 @@ def simulate_landing_gear_extension(
 
     total_delay_time_ms = pump_delay + extension_time + sensor_delay + lock_delay
 
+    # Add a progress bar 
+    steps = 100
+    counter = 0
+    sleep_per_step = total_delay_time_ms / steps / 1000 # Converting ms to seconds to make progress bar more even
+    while counter < steps:
+        progress_bar(counter, steps, prefix="Extending Landing Gear: ", suffix="Landing Gear Extended", fill="#")
+        time.sleep(sleep_per_step)
+        counter += 1
+
     total_time_ms = time_ms
-    
-    if total_delay_time_ms == total_time_ms:
-        print("times match")
-        
+
     # Requirement check
     meets_requirement = total_time_ms <= config.requirement_time_ms
 
