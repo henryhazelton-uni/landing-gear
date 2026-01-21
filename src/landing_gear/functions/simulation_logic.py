@@ -15,6 +15,10 @@ def simulate_landing_gear_extension(
     Simulate a landing-gear extension sequence for a given configuration.
     This is a conceptual simulation – no physics, just simple timing arithmetic.
     """
+
+
+    # Once all the delays are initated, the time taken can be used to be the condition of a while loop for progress bar
+
     timeline: List[Tuple[int, str, GearState]] = []
 
     # Start in UP_LOCKED
@@ -31,11 +35,6 @@ def simulate_landing_gear_extension(
         -random_variation_ms, random_variation_ms
     )
     pump_delay = max(pump_delay, 0)  # don't allow negative
-    time_ms += pump_delay
-    current_state = GearState.TRANSITIONING_DOWN
-    timeline.append(
-        (time_ms, f"Hydraulic pump ready after {pump_delay} ms", current_state)
-    )
 
     # Actuator extension
     # Convert speed in mm per 100ms to mm per ms
@@ -52,25 +51,8 @@ def simulate_landing_gear_extension(
     )
     extension_time = max(extension_time, 0)
 
-    time_ms += extension_time
-    timeline.append(
-        (
-            time_ms,
-            f"Actuator finished extending after {extension_time} ms",
-            current_state,
-        )
-    )
-
     # Sensor detection (with optional noise)
     sensor_delay = sensor_noise_ms
-    time_ms += sensor_delay
-    timeline.append(
-        (
-            time_ms,
-            f"Down-position sensor triggered (+{sensor_delay} ms noise)",
-            current_state,
-        )
-    )
 
     # Lock engagement
     lock_delay = config.lock_time_ms + random.randint(
@@ -87,6 +69,31 @@ def simulate_landing_gear_extension(
 
     # Requirement check
     meets_requirement = total_time_ms <= config.requirement_time_ms
+
+    # Gather all the time_ms appended things
+    time_ms += pump_delay
+    current_state = GearState.TRANSITIONING_DOWN
+    timeline.append(
+        (time_ms, f"Hydraulic pump ready after {pump_delay} ms", current_state)
+    )
+
+    time_ms += extension_time
+    timeline.append(
+        (
+            time_ms,
+            f"Actuator finished extending after {extension_time} ms",
+            current_state,
+        )
+    )
+
+    time_ms += sensor_delay
+    timeline.append(
+        (
+            time_ms,
+            f"Down-position sensor triggered (+{sensor_delay} ms noise)",
+            current_state,
+        )
+    )
 
     # Simple failure detection: if requirement not met, mark as failure state at requirement boundary
     failure_state_time = None
