@@ -100,8 +100,8 @@ def simulate_landing_gear_extension(
     steps = 100
     counter = 0
     sleep_per_step = total_delay_time_ms / steps / 1000 # Converting ms to seconds to make progress bar more even
-    while counter < steps:
-        progress_bar(counter, steps-1, prefix="Extending Landing Gear: ", suffix="Landing Gear Extended", fill="#")
+    while counter < steps+1:
+        progress_bar(counter, steps, prefix="Extending Landing Gear: ", suffix="Landing Gear Extended", fill="#")
         time.sleep(sleep_per_step)
         counter += 1
     
