@@ -20,11 +20,11 @@ def main() -> None:
     result_a = simulate_landing_gear_extension(
         config_a, random_variation_ms=variation_ms, sensor_noise_ms=sensor_noise_ms
     )
+    print_simulation_result(result_a)
+
     result_b = simulate_landing_gear_extension(
         config_b, random_variation_ms=variation_ms, sensor_noise_ms=sensor_noise_ms
     )
-
-    print_simulation_result(result_a)
     print_simulation_result(result_b)
 
 

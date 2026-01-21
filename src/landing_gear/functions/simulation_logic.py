@@ -104,6 +104,8 @@ def simulate_landing_gear_extension(
         progress_bar(counter, steps, prefix="Extending Landing Gear: ", suffix="Landing Gear Extended", fill="#")
         time.sleep(sleep_per_step)
         counter += 1
+    
+    print()
 
     total_time_ms = time_ms
 
