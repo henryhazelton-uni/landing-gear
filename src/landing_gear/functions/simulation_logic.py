@@ -99,7 +99,7 @@ def simulate_landing_gear_extension(
     sleep_per_step = (
         total_delay_time_ms / steps / 1000
     )  # Converting ms to seconds to make progress bar more even
-    print(f"Starting extension of landing gear:")
+    print("Starting extension of landing gear:")
     start_time = time.time()
     while counter < steps + 1:
         progress_bar(
