@@ -17,8 +17,6 @@ def simulate_landing_gear_extension(
     Simulate a landing-gear extension sequence for a given configuration.
     This is a conceptual simulation – no physics, just simple timing arithmetic.
     """
-
-
     # Once all the delays are initated, the time taken can be used to be the condition of a while loop for progress bar
 
     timeline: List[Tuple[int, str, GearState]] = []
@@ -61,7 +59,7 @@ def simulate_landing_gear_extension(
         -random_variation_ms, random_variation_ms
     )
     lock_delay = max(lock_delay, 0)
-    
+
     # Gather all the time_ms appended things
     time_ms += pump_delay
     current_state = GearState.TRANSITIONING_DOWN
@@ -93,23 +91,29 @@ def simulate_landing_gear_extension(
         (time_ms, f"Gear locked DOWN after additional {lock_delay} ms", current_state)
     )
 
-
     total_delay_time_ms = pump_delay + extension_time + sensor_delay + lock_delay
 
-    # Add a progress bar 
+    # Add a progress bar
     steps = 100
     counter = 0
-    sleep_per_step = total_delay_time_ms / steps / 1000 # Converting ms to seconds to make progress bar more even
+    sleep_per_step = (
+        total_delay_time_ms / steps / 1000
+    )  # Converting ms to seconds to make progress bar more even
     start_time = time.time()
-    while counter < steps+1:
-        progress_bar(counter, steps, prefix="Extending Landing Gear: ", suffix="Landing Gear Extended", fill="#")
+    while counter < steps + 1:
+        progress_bar(
+            counter,
+            steps,
+            prefix="Extending Landing Gear: ",
+            suffix="Landing Gear Extended",
+            fill="#",
+        )
         time.sleep(sleep_per_step)
         counter += 1
     end_time = time.time()
     time_taken = end_time - start_time
     print()
-    print(time_taken)
-    
+    print(f"Time taken to execute: {time_taken:.2f} seconds")
     print()
 
     total_time_ms = time_ms

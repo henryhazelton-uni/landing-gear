@@ -1,11 +1,20 @@
 # -----------------------------
-#  Progress bar to display 
+#  Progress bar to display
 #  landing gear progress
 # -----------------------------
 
 import sys
 
-def progress_bar(iteration: int, total: int, prefix: str = '', suffix: str = '', decimals: int = 1, length: int = 100, fill: str = '#') -> None:
+
+def progress_bar(
+    iteration: int,
+    total: int,
+    prefix: str = "",
+    suffix: str = "",
+    decimals: int = 1,
+    length: int = 100,
+    fill: str = "#",
+) -> None:
     """
     Call in a loop to create terminal progress bar
     @params:
@@ -18,8 +27,8 @@ def progress_bar(iteration: int, total: int, prefix: str = '', suffix: str = '',
         fill        - Optional  : bar fill character (Str)
         printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
     """
-    percent = ('{0:.' + str(decimals) + 'f}').format(100 * (iteration / float(total)))
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
     filledLength = int(length * iteration // total)
-    bar = fill * filledLength + '-' * (length - filledLength)
-    sys.stdout.write(f'\r{prefix} |{bar}| {percent}% {suffix}')
+    bar = fill * filledLength + "-" * (length - filledLength)
+    sys.stdout.write(f"\r{prefix} |{bar}| {percent}% {suffix}")
     sys.stdout.flush()
